@@ -1,0 +1,85 @@
+import * as ReactDOM from "https://cdn.skypack.dev/react-dom@17.0.1";
+import * as React from "https://cdn.skypack.dev/react@17.0.1";
+class MyForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      email: "",
+      message: "",
+      errormessage: ""
+    };
+    
+  }
+  mySubmitHandler = (event) => {
+    event.preventDefault();
+    let x = this.state.name;
+    let y = this.state.email;
+    let z = this.state.message;
+    let err = "";
+
+    if (x == "" || y == "" || z=="") {
+      err =  <div class="alert alert-warning" role="alert"><strong> Please fill all the required fields </strong></div>;
+      this.setState({ errormessage: err });
+      
+    } else if(confirm("Do you want to submit?")) {   
+      let myelement = (
+        <div class="table-responsive">
+          <table class="table table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>{this.state.name}</td>
+      <td>{this.state.email}</td>
+      <td class="msg">{this.state.message}</td>
+    </tr>
+    
+  </tbody>
+</table>
+         
+        </div>
+      );
+      ReactDOM.render(myelement, document.getElementById("root"));
+    }
+    else{
+      
+    }
+  };
+  myChangeHandler = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+  render() {
+    return (
+      <form onSubmit={this.mySubmitHandler} >
+        <div class = "container">
+        <h1>Contact us:</h1>
+       {this.state.errormessage}
+        <div class="form-group">
+    <label>Name*</label>
+    <input type="text" class="form-control"  placeholder="Enter name" name="name" onChange={this.myChangeHandler}/>
+  </div>
+         <div class="form-group">
+    <label>Email address *</label>
+    <input type="email" class="form-control"  placeholder="name@example.com" name="email" onChange={this.myChangeHandler}/>
+  </div>
+        <div class="form-group">
+    <label>Your Message* </label>
+    <textarea class="form-control"  rows="3" placeholder="write your message " name="message" onChange={this.myChangeHandler} ></textarea>
+  </div>
+      
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+          </form>
+    );
+  }
+}
+
+ReactDOM.render(<MyForm />, document.getElementById("root"));
